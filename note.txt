@@ -1,0 +1,36 @@
+MB EVENT SERVER
+features to implement
+USER REGISTRTION:
+1.Register
+2. Login
+3.forgot password(reset password)
+features to be performed by user on EVENT:
+1.create EVENT 
+2.pay EVENT
+3.see events associated with them (hosted,previous,attending,saved)
+
+
+EVENT features:
+1.upcoming event(6 latest ones)
+2.free event(6 latest free event)
+3.all event (9 per page)
+search for event 
+5.see more about single event (similar events (category))
+
+
+set up our SERVER
+1.package.json - npm init -y
+2.install dependencies(express,mongoose,nodemon{--save-dev})
+3.set up our scripts; start and dev
+dotenv - enviromental varaibles (secret)
+
+
+user REGISTRTION
+1.fullname,email,password -req.body
+
+
+JWT- jasonwebtoken
+1.header
+2.payload{are unique to the user}
+3.signature
+
