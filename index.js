@@ -4,17 +4,30 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 4000;
 const userRouter = require("./routes/userRouter");
-const cors = require('cors')
+const cors = require("cors");
+const fileupload = require("express-fileupload");
+const eventRouter = require("./routes/eventRouter");
+const cloudinary = require('cloudinary')
+
+// cloudinary config
+   cloudinary.config({
+     cloud_name: process.env.CLOUD_NAME,
+     api_key: process.env.API_KEY,
+     api_secret: process.env.API_SECRET, // Click 'View API Keys' above to copy your API secret
+   });
 
 //middlewares
+
+app.use(fileupload({ useTempFiles: true }));
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 //routes
 app.get("/", (req, res) => {
   res.status(200).json({ success: true, message: "Mb Events server" });
 });
 app.use("/api/v1", userRouter);
+app.use("/api/v1/event", eventRouter);
 
 //error route
 app.use((req, res) => {
