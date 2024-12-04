@@ -52,7 +52,7 @@ const createEvent = async (req, res) => {
       description,
       category,
       location: online === "true" ? "online" : location,
-      tags,
+      tags: Array.isArray(tags) ? tags : tags.split(","),
       price: {
         free: free === "true",
         regular: free === "true" ? 0 : req.body?.regularPrice,
@@ -70,9 +70,34 @@ const createEvent = async (req, res) => {
 };
 
 const getUpComingEvent = async (req, res) => {
-  res.send("get upcoming event");
+  try {
+    const currentDate = new Date();
+    const upcomingEvents = await EVENT.find({ date: { $gte: currentDate } })
+      .sort("date")
+      .limit(6)
+      .populate("hostedBy", "fullName");
+    res.status(200).json({ success: true, events: upcomingEvents });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 const getfreeEvent = async (req, res) => {
-  res.send("get free event");
+  try {
+    const currentDate = new Date();
+    const freeEvent = await EVENT.find({
+      date: { $gte: currentDate },
+      "price.free": true,
+    })
+      .sort("date")
+      .limit(6)
+      .populate("hostedBy", "fullName");
+    res.status(200).json({ success: true, events: freeEvent });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
-module.exports = { createEvent, getUpComingEvent, getfreeEvent };
+
+const getSingelEvent = async = (req, res) => {
+    res.send('get single event')
+}
+module.exports = { createEvent, getUpComingEvent, getfreeEvent,getSingelEvent };
